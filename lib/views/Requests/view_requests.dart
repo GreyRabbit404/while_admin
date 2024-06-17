@@ -40,7 +40,7 @@ class CreatorRequestsWidget extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('requests')
-          .where('isContentCreator', isEqualTo: false)
+          .where('isContentCreator', isEqualTo: 0)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -98,11 +98,11 @@ class CreatorRequestsWidget extends StatelessWidget {
       await firestoreInstance
           .collection('users')
           .doc(userId)
-          .update({'isContentCreator': true});
+          .update({'isContentCreator': 1});
       await firestoreInstance
           .collection('requests')
           .doc(request.id)
-          .update({'isContentCreator': true});
+          .update({'isContentCreator': 1});
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Request approved for user ID: $userId")));
     } catch (error) {
@@ -120,7 +120,7 @@ class CounsellorRequestsWidget extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('CounsellerRequests')
-          .where('isCounsellor', isEqualTo: false)
+          .where('isCounsellor', isEqualTo: 0)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -211,11 +211,11 @@ Future<void> updateCounsellorStatus(
     await firestoreInstance
         .collection('users')
         .doc(userId)
-        .update({'isCounsellor': true});
+        .update({'isCounsellor': 1});
     await firestoreInstance
         .collection('CounsellerRequests')
         .doc(request.id)
-        .update({'isCounsellor': true});
+        .update({'isCounsellor': 1});
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Request approved for user ID: $userId")));
   } catch (error) {
@@ -228,7 +228,7 @@ void fetchAndStoreCounsellors() async {
   QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
       .instance
       .collection('CounsellerRequests')
-      .where('isCounsellor', isEqualTo: false)
+      .where('isCounsellor', isEqualTo: 0)
       .get();
   log("${querySnapshot.docs.length}documents");
   // Step 2: Iterate through each document

@@ -46,6 +46,27 @@ class CustomDrawer extends StatelessWidget {
             height: 10,
             thickness: 1,
           ),
+          ListTile(
+            leading: const Icon(Icons.remove),
+            tileColor: Colors.amber, // Set the tileColor directly here
+            title: const Text(
+              'Remove field from user model',
+              style: TextStyle(color: Colors.black), // Text color
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddFieldValueToAllUsers(),
+                  ));
+              // Update the state of the app.
+              // ...
+            },
+          ),
+          const Divider(
+            height: 10,
+            thickness: 1,
+          ),
         ],
       ),
     );
