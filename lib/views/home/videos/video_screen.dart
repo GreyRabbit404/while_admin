@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:while_admin/views/home/videos/add_video_category.dart';
 import 'package:while_admin/views/home/videos/category_details.dart';
 
 class VideosScreen extends StatefulWidget {
@@ -18,9 +19,7 @@ class _VideosScreenState extends State<VideosScreen> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         // Subscribe to stream of documents in 'videoCategories' collection
-        stream: FirebaseFirestore.instance
-            .collection('videosCategories')
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('videosCategories').snapshots(),
         builder: (context, snapshot) {
           // Check for errors
           if (snapshot.hasError) {
@@ -39,21 +38,28 @@ class _VideosScreenState extends State<VideosScreen> {
             itemCount: documents.length,
             itemBuilder: (context, index) {
               final document = documents[index];
-              final category = document
-                  .id; // Assuming you want to display the document ID as category name
+              final category = document.id; // Assuming you want to display the document ID as category name
 
               return ListTile(
                 title: Text(category),
                 onTap: () {
                   // Handle category tap, possibly navigate to a detailed screen
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          DetailsView(categoryName: category)));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsView(categoryName: category)));
                 },
               );
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddVideoCategoryScreen(),
+              ));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
